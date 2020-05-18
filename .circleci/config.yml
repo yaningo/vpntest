@@ -5,7 +5,7 @@ jobs:
     steps:
     - run:
         name: Install OpenVPN
-        command: sudo apt-get install --upgrade openvpn
+        command: sudo apt-get update -y && sudo apt-get install openvpn
         
     - run:
         name: Init VPN
