@@ -11,7 +11,8 @@ jobs:
         name: Init VPN
         command: |
           echo "$VPN_CONFIG" > raw.txt
-          'cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn \nprintf \"$VPN_USER\\n$VPN_PASSWORD\\n\" >> vpn.login\n'
+          cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
+          "printf \"$VPN_USER\\n$VPN_PASSWORD\\n\" >> vpn.login\n"
     - run:
         name: Connect to VPN
         command: |
