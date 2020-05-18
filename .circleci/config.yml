@@ -28,8 +28,9 @@ jobs:
             route -n
     - run:
         name: Do stuff in our infrastructure
-        command: echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
-        route -n
+        command: |
+          echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
+          route -n
 workflows:
   version: 2
   build-and-release:
