@@ -1,13 +1,31 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
-# Orchestrate or schedule a set of jobs
+version: 2
+jobs:
+  test-vpn:
+    machine: true
+    steps:
+    - run:
+        name: Install OpenVPN
+        command: sudo apt-get install --upgrade openvpn
+        
+    - run:
+        name: Init VPN
+        command: "echo $VPN_CONFIG | base64 --decode >> config.ovpn \nprintf \"$VPN_USER\\\
+          n$VPN_PASSWORD\\n\" >> vpn.login\n"
+    - run:
+        name: Connect to VPN
+        command: |
+          sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
+          #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
+          while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+            sleep 0.1;
+          done
+    - run:
+        name: Do stuff in our infrastructure
+        command: echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  version: 2
+  build-and-release:
     jobs:
-      - welcome/run
+    - test-vpn:
+        context: GLOBAL_ORG
+© 2020 GitHub, Inc.
