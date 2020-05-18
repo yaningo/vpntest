@@ -28,4 +28,3 @@ workflows:
     jobs:
     - test-vpn:
         context: GLOBAL_ORG
-© 2020 GitHub, Inc.
