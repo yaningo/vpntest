@@ -26,7 +26,7 @@ jobs:
             echo "VPN client connected!"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
-            ifconfid -a
+            ifconfig -a
     - run:
         name: Do stuff in our infrastructure
         command: |
