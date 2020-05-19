@@ -26,22 +26,13 @@ jobs:
             echo "VPN client connected!"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
+            ifconfid -a
     - run:
         name: Do stuff in our infrastructure
         command: |
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
-    - run:
-        name: Connect again to VPN
-        command: |
-          sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
-          #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-          while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-            sleep 0.1;
-          done
-            echo "VPN client connected!"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
+          ifconfig -a
             
 workflows:
   version: 2
