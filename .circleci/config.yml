@@ -13,7 +13,7 @@ jobs:
           echo "$VPN_CONFIG" > raw.txt
           cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
           printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
-          echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
+          echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
     - run:
         name: Connect to VPN
@@ -24,12 +24,12 @@ jobs:
             sleep 0.1;
           done
             echo "VPN client connected!"
-            echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
     - run:
         name: Do stuff in our infrastructure
         command: |
-          echo "Public IP is $(curl -s 'https://ipecho.net/plain')"
+          echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
 workflows:
   version: 2
