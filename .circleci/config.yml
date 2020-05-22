@@ -34,6 +34,10 @@ jobs:
           sudo echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           sudo route -n
           sudo ifconfig -a
+          
+    - store_artifacts:
+          path: .
+          destination: openvpn.log
             
 workflows:
   version: 2
