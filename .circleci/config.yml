@@ -36,7 +36,7 @@ jobs:
           sudo ifconfig -a
           
     - store_artifacts:
-          path: .
+          path: ./openvpn.log
           destination: openvpn.log
             
 workflows:
