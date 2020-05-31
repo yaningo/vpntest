@@ -2,13 +2,13 @@ version: 2
 jobs:
   test-vpn:
     machine:
-      image: ubuntu-1604:202004-01
+      image: circleci/classic:201808-01
     steps:
     - run:
         name: Install OpenVPN
         command: |
           sudo apt-get update -y && sudo apt-get install openvpn
-          sudo apt-get upgrade openvpn
+         # sudo apt-get upgrade openvpn
         
     - run:
         name: Init VPN
