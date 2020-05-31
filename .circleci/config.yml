@@ -34,7 +34,7 @@ jobs:
     - run:
         name: Do stuff in our infrastructure
         command: |
-          sudo echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+         # sudo echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           sudo route -n
           sudo ifconfig -a
           
