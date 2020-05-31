@@ -8,8 +8,8 @@ jobs:
         name: Install OpenVPN
         command: |
           sudo apt-get update -y && sudo apt-get install network-manager-openvpn openvpn
-         #sudo openvpn --version
-         #sudo apt-get upgrade openvpn
+          sudo apt-get upgrade openvpn
+          sudo openvpn --version
         
     - run:
         name: Init VPN
