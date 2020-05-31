@@ -7,8 +7,9 @@ jobs:
     - run:
         name: Install OpenVPN
         command: |
-          sudo apt-get update -y && sudo apt-get install openvpn-systemd-resolved
+          sudo apt-get update -y && sudo apt-get install openvpn
          # sudo apt-get upgrade openvpn
+          sudo openvpn --version
         
     - run:
         name: Init VPN
