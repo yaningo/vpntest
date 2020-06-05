@@ -12,8 +12,8 @@ jobs:
           #sudo openvpn --version
           
     - run:
-        name: Remove all Docker networks
-        command: sudo docker network rm host bridge none
+        name: Remove docker0 interface
+        command: sudo ip link del docker0
         
     - run:
         name: List Docker networks
