@@ -12,6 +12,10 @@ jobs:
           #sudo openvpn --version
           
     - run:
+        name: Prune Docker networks
+        command: sudo docker network prune -f
+        
+    - run:
         name: List Docker networks
         command: sudo docker network ls
         
