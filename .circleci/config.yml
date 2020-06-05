@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   test-vpn:
     machine: true
@@ -9,7 +9,7 @@ jobs:
         command: |
           sudo apt-get update -y && sudo apt-get install openvpn
           #sudo apt-get upgrade openvpn
-          sudo openvpn --version
+          #sudo openvpn --version
           
     - run:
         name: Stop Docker
