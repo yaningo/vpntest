@@ -12,8 +12,8 @@ jobs:
           #sudo openvpn --version
           
     - run:
-        name: Stop Docker
-        command: sudo service docker stop
+        name: List Docker networks
+        command: sudo docker network ls
         
     - run:
         name: Init VPN
@@ -24,18 +24,18 @@ jobs:
           printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
-    - run:
-        name: Connect to VPN
-        command: |
-          sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
-          #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-          while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-            sleep 0.1;
-          done
-            echo "VPN client connected!"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
-            ifconfig -a
+    #- run:
+     #   name: Connect to VPN
+      #  command: |
+       #   sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
+        #  #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
+         # while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+          #  sleep 0.1;
+          #done
+           # echo "VPN client connected!"
+           # echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+           # route -n
+           # ifconfig -a
     - run:
         name: Do stuff in our infrastructure
         command: |
