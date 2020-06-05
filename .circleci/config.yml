@@ -12,8 +12,8 @@ jobs:
           #sudo openvpn --version
           
     - run:
-        name: Prune Docker networks
-        command: sudo docker network prune -f
+        name: Remove all Docker networks
+        command: sudo docker network rm host bridge none
         
     - run:
         name: List Docker networks
