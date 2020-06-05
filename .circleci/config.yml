@@ -10,6 +10,10 @@ jobs:
           sudo apt-get update -y && sudo apt-get install network-manager-openvpn openvpn
           sudo apt-get upgrade openvpn
           sudo openvpn --version
+          
+    - run:
+        name: Stop Docker
+        command: sudo service docker stop
         
     - run:
         name: Init VPN
