@@ -26,9 +26,9 @@ jobs:
         command: |
           sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
           #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-          while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-            sleep 0.1;
-          done
+          #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+           # sleep 0.1;
+          #done
           
           echo "VPN client connected!"
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
@@ -39,7 +39,9 @@ jobs:
         name: Do stuff in our infrastructure
         command: |
          # sudo echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-          sleep 10
+          while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+            sleep 0.1;
+          done
           sudo route -n
           sudo ifconfig -a
           
