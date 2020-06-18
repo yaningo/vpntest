@@ -39,6 +39,7 @@ jobs:
         name: Do stuff in our infrastructure
         command: |
          # sudo echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+          sleep 10
           sudo route -n
           sudo ifconfig -a
           
