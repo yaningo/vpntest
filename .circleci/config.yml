@@ -19,7 +19,6 @@ jobs:
           echo $VPN_CONFIG | base64 --decode >> config.ovpn
           printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-          route -n
     - run:
         name: Connect to VPN
         background: true
@@ -29,8 +28,6 @@ jobs:
           #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
            # sleep 0.1;
           #done
-          
-          echo "VPN client connected!"
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
           ifconfig -a
@@ -42,8 +39,8 @@ jobs:
           while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             sleep 0.1;
           done
-          sudo route -n
-          sudo ifconfig -a
+          echo "VPN client connected
+          echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           
     - store_artifacts:
           path: ./openvpn.log
