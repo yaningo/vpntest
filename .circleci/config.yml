@@ -50,7 +50,7 @@ jobs:
             ifconfig -a
           
       - store_artifacts:
-          path: ./openvpn.log
+          path: ~/openvpn.log
           destination: openvpn.log
             
 workflows:
