@@ -13,14 +13,13 @@ jobs:
             sudo apt-get update -y && sudo apt-get install openvpn
             #sudo apt-get upgrade openvpn
             #sudo openvpn --version
-            ls -al config.ovpn
         
       - run:
           name: Init VPN
           command: |
             #echo "$VPN_CONFIG" > raw.txt
             #cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
-            echo $VPN_CONFIG | base64 --decode > config.ovpn
+            echo $VPN_CONFIG | base64 --decode >> config.ovpn
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             ls -al config.ovpn
