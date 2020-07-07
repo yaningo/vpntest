@@ -13,6 +13,7 @@ jobs:
             sudo apt-get update -y && sudo apt-get install openvpn
             #sudo apt-get upgrade openvpn
             #sudo openvpn --version
+            ls -al config.ovpn
         
       - run:
           name: Init VPN
