@@ -19,7 +19,7 @@ jobs:
           command: |
             #echo "$VPN_CONFIG" > raw.txt
             #cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
-            sduo echo $VPN_CONFIG | base64 --decode >> config.ovpn
+            echo $VPN_CONFIG | base64 --decode >> config.ovpn
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             ls -al config.ovpn
@@ -28,7 +28,7 @@ jobs:
           background: true
           command: |
             echo "Connecting VPN client..."
-            sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
+            openvpn --config config.ovpn > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
