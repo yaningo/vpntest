@@ -45,7 +45,7 @@ jobs:
            # while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
            #   sleep 0.5;
            # done
-           sleep 5
+           sleep 10
             echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
