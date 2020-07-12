@@ -1,15 +1,18 @@
 version: 2.1
 jobs:
-  test-vpn:
+  test-root:
     machine:
       image: ubuntu-1604:202004-01
     
     steps:
     - run:
-        name: Install OpenVPN
-        command: |
-          sudo su
-          whoami
+        name: Switch to root
+        backgound: true
+        command: sudo su
+        
+    - run:
+        name: Am I root?
+        command: whoami
           #sudo su && curl -s https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add - && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list
           #sudo apt-get update
           #apt install -y openvpn
@@ -19,4 +22,4 @@ workflows:
   version: 2
   build-and-release:
     jobs:
-    - test-vpn
+    - test-root
