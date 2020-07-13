@@ -58,7 +58,7 @@ jobs:
           destination: openvpn.log
             
 workflows:
-   version: 2
+  version: 2
   build-and-release:
     jobs:
     - test-vpn
