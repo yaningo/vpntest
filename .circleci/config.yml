@@ -28,7 +28,7 @@ jobs:
           background: true
           command: |
             echo "Connecting VPN client..."
-            sudo openvpn --config config.ovpn & 2>&1
+            sudo openvpn --config config.ovpn 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
