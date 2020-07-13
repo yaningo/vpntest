@@ -38,7 +38,7 @@ jobs:
             route -n
             ifconfig -a
             # ls -al openvpn.log
-            ps -aef|vpn
+            ps -aef|grep vpn
           
       - run:
           name: Do stuff in our infrastructure
