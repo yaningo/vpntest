@@ -14,7 +14,6 @@ jobs:
           sudo sh -c 'echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list'
           sudo apt-get -q -y update
           sudo apt-get -q -y install openvpn
-          openvpn -version
             
 workflows:
   version: 2
