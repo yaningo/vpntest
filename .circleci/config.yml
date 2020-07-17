@@ -43,7 +43,7 @@ jobs:
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
           route -n
           ifconfig -a
-          ccurl ifconfig.me
+          curl ifconfig.me
           
     - store_artifacts:
           path: ./openvpn.log
