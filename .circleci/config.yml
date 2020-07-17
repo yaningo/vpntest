@@ -22,7 +22,6 @@ jobs:
             echo $VPN_CONFIG | base64 --decode >> config.ovpn
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            cat vpn.login
             
       - run:
           name: Connect to VPN
