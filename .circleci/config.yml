@@ -5,19 +5,18 @@ jobs:
       - image: circleci/python:3.7
     
     steps:
-      - checkout
       - add_ssh_keys:
           fingerprints:
             - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"
+      - checkout
       - run:
           name: Check presence of .ssh folder
           command: |
-            cd /home/circleci
+            cd /home/circleci/.ssh
             ls -al
       - run:
          name: SSH into remote
          command: |
-           cd /home/circleci/.ssh
            ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
             
 workflows:
