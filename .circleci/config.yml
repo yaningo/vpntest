@@ -2,7 +2,6 @@ version: 2
 jobs:
   test-vpn:
     machine: true
-    working_directory: /home/circleci/project
     
     steps:
       - add_ssh_keys:
