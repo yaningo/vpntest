@@ -3,6 +3,7 @@ jobs:
   test-vpn:
     docker:
       - image: circleci/python:3.7
+    working_directory: /home/circleci
     
     steps:
       - checkout
