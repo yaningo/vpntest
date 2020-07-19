@@ -1,7 +1,9 @@
 version: 2
 jobs:
   test-vpn:
-    machine: true
+    docker:
+      - image: circleci/python:3.7
+    working_directory: /home/circleci/project
     
     steps:
       - add_ssh_keys:
