@@ -14,8 +14,7 @@ jobs:
           command: ssh-keyscan -H ec2-18-202-221-47.eu-west-1.compute.amazonaws.com >> ~/.ssh/known_hosts 
 
       - run:
-         name: SSH into remote
-         command: ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
+          command: ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
             
 workflows:
   version: 2
