@@ -12,12 +12,12 @@ jobs:
       - run:
           name: Check presence of .ssh folder
           command: |
-            cd /home/circleci/.ssh
+            cat /home/circleci/.ssh/known_hosts
             ls -al
-      - run:
-         name: SSH into remote
-         command: |
-           ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
+    #  - run:
+    #     name: SSH into remote
+    #     command: |
+    #       ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
             
 workflows:
   version: 2
