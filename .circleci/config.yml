@@ -1,12 +1,14 @@
 version: 2
 jobs:
   test-vpn:
-    machine: true
+    docker:
+      - image: circleci/python:3.7
     
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
+            - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"
+      - checkout
       - run:
           name: Install OpenVPN
           command: ssh openvpnas@ec2-18-202-221-47.eu-west-1.compute.amazonaws.com \ pwd
