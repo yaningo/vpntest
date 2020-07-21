@@ -5,6 +5,7 @@ jobs:
       - image: circleci/python:latest
     
     steps:
+      - checkout
       - run:
           name: Get commit message
           command: |
