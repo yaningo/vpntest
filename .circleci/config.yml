@@ -12,7 +12,7 @@ jobs:
             COMMIT_MESSAGE=$(git log --format="%s" -n 1 $CIRCLE_SHA1)
             echo $COMMIT_MESSAGE
             COMMIT_AUTHOR=$(git log --format="%an" -n 1 $CIRCLE_SHA1)
-            echo $COMMIT_AUTHOR\`s job
+            echo $COMMIT_AUTHOR\`s job \n$COMMIT_MESSAGE
             
 workflows:
   version: 2
