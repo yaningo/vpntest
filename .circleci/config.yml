@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Get commit message
           command: |
-            COMMIT_MESSAGE=\"$(git log --format=oneline -n 1 $CIRCLE_SHA1)\"
+            COMMIT_MESSAGE=\"$(git log --format="%s" -n 5 $CIRCLE_SHA1)\"
             echo $COMMIT_MESSAGE
             
 workflows:
