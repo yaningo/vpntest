@@ -11,7 +11,7 @@ jobs:
           command: |
             COMMIT_MESSAGE=\"$(git log --format="%s" -n 1 $CIRCLE_SHA1)\"
             echo $COMMIT_MESSAGE
-            COMMIT_AUTHOR=\"$(git log --format="%cn" -n 1 $CIRCLE_SHA1)\"
+            COMMIT_AUTHOR=\"$(git log --format="%an" -n 1 $CIRCLE_SHA1)\"
             echo $COMMIT_AUTHOR
             
 workflows:
