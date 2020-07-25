@@ -15,7 +15,7 @@ jobs:
             #sudo openvpn --version
         
       - run:
-          name: Init VPN
+          name: Init le VPN
           command: |
             echo "$VPN_CONFIG" > raw.txt
             cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
