@@ -25,7 +25,7 @@ jobs:
             
       - run:
           name: Connect to VPN
-          #background: true
+          background: true
           command: |
             echo "Connecting VPN client..."
             #sudo openvpn --config config.ovpn 2>&1 &
