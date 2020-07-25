@@ -25,7 +25,7 @@ jobs:
             
       - run:
           name: Connect to VPN
-          #background: true
+          background: true
           command: |
             echo "Connecting VPN client..."
             #sudo openvpn --config config.ovpn 2>&1 &
@@ -35,9 +35,9 @@ jobs:
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 0.1;
             #done
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
-            ifconfig -a
+            #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            #route -n
+            #ifconfig -a
             
       - store_artifacts:
           path: /home/circleci/project/openvpn.log
