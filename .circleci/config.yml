@@ -23,15 +23,15 @@ jobs:
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             
-      - run:
-          name: Setup VPN tunnel
-          command: |
-            sudo /sbin/modprobe tun
-            cd /dev
-            sudo MAKEDEV tun
-            sudo openvpn --mktun --dev tun0
-            sudo ip link set dev tun0 up
-            sudo ip addr show
+     # - run:
+     #     name: Setup VPN tunnel
+     #     command: |
+     #       sudo /sbin/modprobe tun
+     #       cd /dev
+     #       sudo MAKEDEV tun
+     #       sudo openvpn --mktun --dev tun0
+     #       sudo ip link set dev tun0 up
+     #       sudo ip addr show
             
       - run:
           name: Connect to VPN
