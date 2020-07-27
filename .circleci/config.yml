@@ -40,6 +40,7 @@ jobs:
          # background: true
           command: |
             echo "Connecting VPN client..."
+            sudo sysctl net.ipv6.conf.all.disable_ipv6=0
             sudo openvpn --config config.ovpn --daemon
             #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
@@ -69,8 +70,6 @@ jobs:
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
             ifconfig -a
-            sudo apt-get install traceroute -y
-            traceroute google.com
 
             
 workflows:
