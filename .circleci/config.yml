@@ -63,7 +63,6 @@ jobs:
               sleep 2;
             done
             sudo sysctl net.ipv4.ip_forward=1
-            sudo route add -net 172.31.0.0 255.255.0.0 dev tun0
            # sleep 10
             echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
