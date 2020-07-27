@@ -40,7 +40,6 @@ jobs:
          # background: true
           command: |
             echo "Connecting VPN client..."
-            sudo sysctl net.ipv6.conf.all.disable_ipv6=0
             sudo sysctl net.ipv4.ip_forward=1
             sudo openvpn --config config.ovpn --daemon
             #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
@@ -51,6 +50,9 @@ jobs:
              sleep 5;
             done
             echo "VPN client connected"
+            sudo iptables -I FORWARD -i tun0 -o eth0 -s 172.31.0.0/16 -m conntrack --ctstate NEW -j ACCEPT
+            sudo iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+            sudo iptables -t nat -I POSTROUTING -o eth0 -s 172.31.0.0/16 -j MASQUERADE
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
             ifconfig -a
