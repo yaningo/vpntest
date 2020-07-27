@@ -11,7 +11,7 @@ jobs:
           name: Install OpenVPN
           command: |
             sudo apt-get update -y && sudo apt-get install openvpn
-            sudo apt-get install network-manager-openvpn
+            sudo apt-get install network-manager-openvpn -y
             #sudo apt-get upgrade openvpn
             #sudo openvpn --version
         
@@ -69,6 +69,7 @@ jobs:
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
             ifconfig -a
+            sudo apt-get install traceroute -y
             traceroute google.com
 
             
