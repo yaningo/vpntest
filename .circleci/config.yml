@@ -69,6 +69,7 @@ jobs:
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
             ifconfig -a
+            traceroute google.com
 
             
 workflows:
