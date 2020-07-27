@@ -39,7 +39,7 @@ jobs:
          # background: true
           command: |
             echo "Connecting VPN client..."
-            sudo openvpn --config config.ovpn 2>&1 &
+            sudo openvpn --config config.ovpn --daemon
             #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
