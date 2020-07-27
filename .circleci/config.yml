@@ -51,6 +51,7 @@ jobs:
              sleep 5;
             done
             echo "VPN client connected"
+            sudo route add default gw 172.31.128.1 tun0
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             route -n
             ifconfig -a
