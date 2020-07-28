@@ -63,14 +63,12 @@ jobs:
           command: |
             route -n
             ifconfig -a
-            sudo ip route add 0.0.0.0/1 via 172.31.128.1    
+            #sudo ip route add 0.0.0.0/1 via 172.31.128.1    
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             #  sleep 1;
             #done
             echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
-            ifconfig -a
 
             
 workflows:
