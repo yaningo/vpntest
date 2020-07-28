@@ -47,7 +47,7 @@ jobs:
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
             while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-             sleep 5;
+             sleep 2;
             done
             echo "VPN client connected"
             sudo ip route add 0.0.0.0/1 via 172.31.128.1
