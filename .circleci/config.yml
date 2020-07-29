@@ -2,7 +2,7 @@ version: 2
 jobs:
   test-vpn:
    # machine: true
-   docker:
+    docker:
       - image: circleci/ruby:2.4.2-jessie-node
     
     steps:
