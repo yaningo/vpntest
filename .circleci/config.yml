@@ -1,7 +1,9 @@
 version: 2
 jobs:
   test-vpn:
-    machine: true
+   # machine: true
+   docker:
+      - image: circleci/ruby:2.4.2-jessie-node
     
     steps:
       - add_ssh_keys:
