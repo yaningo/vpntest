@@ -56,7 +56,7 @@ jobs:
             sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
 
               # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
-            sudo systemctl daemon-reload
+            sudo sysctl daemon-reload
           
       - run:
           name: Configure OpenVPN config file /etc/openvpn/config.ovpn with parameter config
@@ -69,7 +69,7 @@ jobs:
             echo ${VPN_PASSWORD} | sudo tee -a /etc/openvpn/vpn.login 1>/dev/null
         
       - run:
-          command: "for n in {1..5}\ndo\n  echo \"Connection attempt $n\"\n  sudo systemctl restart openvpn-client\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 5 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
+          command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo sysctl restart openvpn-client\n  timeout 30 \\\n    bash -c 'until sysctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 5 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
           name: Start OPENVPN client and wait for connection to be made
           
       - run:
