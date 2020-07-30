@@ -45,18 +45,16 @@ jobs:
               sudo apt-get -q -y install openvpn
 
               # Configure openvpn-client.service
-              sudo sh -c "cat \<<- EOF > /etc/systemd/system/openvpn-client.service
-            [Unit]
-            Description=OpenVPN Client
-            After=syslog.target network.target
-            [Service]
-            PrivateTmp=true
-            Type=simple
-            PIDFile=/var/run/openvpn/inf.pid
-            ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
-            [Install]
-            WantedBy=multi-user.target
-            EOF"
+              echo "[Unit]" > /etc/systemd/system/openvpn-client.service
+              echo "Description=OpenVPN Client" >> /etc/systemd/system/openvpn-client.service
+              echo "After=syslog.target network.target" >> /etc/systemd/system/openvpn-client.service
+              echo "[Service]" >> /etc/systemd/system/openvpn-client.service
+              echo "PrivateTmp=true" >> /etc/systemd/system/openvpn-client.service
+              echo "Type=simple" >> /etc/systemd/system/openvpn-client.service
+              echo "PIDFile=/var/run/openvpn/inf.pid" >> /etc/systemd/system/openvpn-client.service
+              echo "ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn" >> /etc/systemd/system/openvpn-client.service
+              echo "[Install]" >> /etc/systemd/system/openvpn-client.service
+              echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service
 
               # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
               sudo systemctl daemon-reload
