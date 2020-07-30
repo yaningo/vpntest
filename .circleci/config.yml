@@ -1,9 +1,8 @@
-version: 2
+version: 2.1
 jobs:
   test-vpn:
-    machine:
-      image: ubuntu-1604:202004-01
-
+    machine: true
+    
     steps:
      # - add_ssh_keys:
      #     fingerprints:
@@ -28,23 +27,23 @@ jobs:
             
 
       - run:
-        name: Configure openvpn-client.service
-        command: |
-          sudo sh -c "cat <<EOF > /etc/systemd/system/openvpn-client.service
-          [Unit]
-          Description=OpenVPN Client
-          After=syslog.target network.target
-          [Service]
-          PrivateTmp=true
-          Type=simple
-          PIDFile=/var/run/openvpn/inf.pid
-          ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
-          [Install]
-          WantedBy=multi-user.target
-          EOF"
+          name: Configure openvpn-client.service
+          command: |
+            sudo sh -c "cat <<EOF > /etc/systemd/system/openvpn-client.service
+            [Unit]
+            Description=OpenVPN Client
+            After=syslog.target network.target
+            [Service]
+            PrivateTmp=true
+            Type=simple
+            PIDFile=/var/run/openvpn/inf.pid
+            ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
+            [Install]
+            WantedBy=multi-user.target
+            EOF"
 
           # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
-          sudo systemctl daemon-reload
+            sudo systemctl daemon-reload
           
     - run:
         name: Configure OpenVPN config file /etc/openvpn/config.ovpn with parameter config
