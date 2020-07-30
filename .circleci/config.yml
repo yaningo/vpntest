@@ -45,7 +45,7 @@ jobs:
               sudo apt-get -q -y install openvpn
 
               # Configure openvpn-client.service
-              sudo sh -c "cat <<EOF > /etc/systemd/system/openvpn-client.service
+              sudo sh -c "cat \<<EOF > /etc/systemd/system/openvpn-client.service
             [Unit]
             Description=OpenVPN Client
             After=syslog.target network.target
