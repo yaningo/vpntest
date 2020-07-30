@@ -1,14 +1,12 @@
 version: 2
 jobs:
   test-vpn:
-   # machine: true
-    docker:
-      - image: circleci/ruby:2.4.2-jessie-node
+    machine: true
     
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
+     # - add_ssh_keys:
+     #     fingerprints:
+     #       - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
       - run:
           name: Install OpenVPN
           command: |
@@ -27,49 +25,45 @@ jobs:
             #printf "$VPN_USERNAME\n$VPN_PASSWORD\n" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             
-     # - run:
-     #     name: Setup VPN tunnel
-     #     command: |
-     #       sudo /sbin/modprobe tun
-     #       cd /dev
-     #       sudo MAKEDEV tun
-     #       sudo openvpn --mktun --dev tun0
-     #       sudo ip link set dev tun0 up
-     #       sudo ip addr show
-            
-      - run:
-          name: Connect to VPN
-          #background: true
-          command: |
-            echo "Connecting VPN client..."
-            #sudo sysctl net.ipv4.ip_forward=1
-            #sudo openvpn --config config.ovpn --daemon
-            #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
-            sudo openvpn --config config.ovpn 2>&1 &
-            #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
-            #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
-            #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-            while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-             sleep 2;
-            done
-            sleep 5
 
-            #echo "VPN client connected"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
-            ifconfig -a
-            
-     # - store_artifacts:
-     #     path: /home/circleci/project/openvpn.log
-     #     destination: openvpn.log
+      - run:
+        name: Configure openvpn-client.service
+        command: |
+          sudo sh -c "cat <<EOF > /etc/systemd/system/openvpn-client.service
+          [Unit]
+          Description=OpenVPN Client
+          After=syslog.target network.target
+          [Service]
+          PrivateTmp=true
+          Type=simple
+          PIDFile=/var/run/openvpn/inf.pid
+          ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
+          [Install]
+          WantedBy=multi-user.target
+          EOF"
+
+          # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
+          sudo systemctl daemon-reload
+          
+    - run:
+        name: Configure OpenVPN config file /etc/openvpn/config.ovpn with parameter config
+        command: echo ${VPN_CONFIG} | base64 --decode | sudo tee /etc/openvpn/config.ovpn 1>/dev/null
+        
+    - run:
+        name: Configure OpenVPN credential file /etc/openvpn/vpn.login with parameter username and password
+        command: |
+          echo ${VPN_USER} | sudo tee /etc/openvpn/vpn.login 1>/dev/null
+          echo ${VPN_PASSWORD} | sudo tee -a /etc/openvpn/vpn.login 1>/dev/null
+        
+    - run:
+        command: "for n in {1..5}\ndo\n  echo \"Connection attempt $n\"\n  sudo systemctl restart openvpn-client\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 5 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
+        name: Start OPENVPN client and wait for connection to be made
           
       - run:
           name: Do stuff in our infrastructure
           command: |
             route -n
             ifconfig -a
-            sleep 10
-            sudo ip route add 0.0.0.0/1 via 172.31.128.1    
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             #  sleep 1;
             #done
