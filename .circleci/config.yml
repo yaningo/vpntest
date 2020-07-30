@@ -4,9 +4,6 @@ jobs:
     machine: true
       
     steps:
-     # - add_ssh_keys:
-     #     fingerprints:
-     #       - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
       - run:
           name: Install OpenVPN
           command: |
@@ -44,19 +41,19 @@ jobs:
               sudo apt-get -q -y install openvpn
             fi
               
-       - run:
-           name: Configure openvpn-client.service 
-           command: |
-              sudo sh -c 'echo "[Unit]" > /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "Description=OpenVPN Client" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "After=syslog.target network.target" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "[Service]" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "PrivateTmp=true" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "Type=simple" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "PIDFile=/var/run/openvpn/inf.pid" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "[Install]" >> /etc/systemd/system/openvpn-client.service'
-              sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
+      - run:
+          name: Configure openvpn-client.service 
+          command: |
+             sudo sh -c 'echo "[Unit]" > /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "Description=OpenVPN Client" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "After=syslog.target network.target" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "[Service]" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "PrivateTmp=true" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "Type=simple" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "PIDFile=/var/run/openvpn/inf.pid" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "[Install]" >> /etc/systemd/system/openvpn-client.service'
+             sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
 
               # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
               sudo systemctl daemon-reload
