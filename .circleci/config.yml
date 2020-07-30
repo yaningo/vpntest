@@ -1,8 +1,9 @@
 version: 2
 jobs:
   test-vpn:
-    machine: true
-    
+    machine:
+      image: ubuntu-1604:202004-01
+
     steps:
      # - add_ssh_keys:
      #     fingerprints:
