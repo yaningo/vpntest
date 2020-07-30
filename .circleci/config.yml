@@ -55,8 +55,7 @@ jobs:
             PIDFile=/var/run/openvpn/inf.pid
             ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
             [Install]
-            WantedBy=multi-user.target
-            EOF"
+            WantedBy=multi-user.target"
 
               # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
               sudo systemctl daemon-reload
