@@ -27,23 +27,39 @@ jobs:
             
 
       - run:
-          name: Configure openvpn-client.service
           command: |
-            sudo sh -c "cat <<EOF > /etc/systemd/system/openvpn-client.service
-          [Unit]
-          Description=OpenVPN Client
-          After=syslog.target network.target
-          [Service]
-          PrivateTmp=true
-          Type=simple
-          PIDFile=/var/run/openvpn/inf.pid
-          ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
-          [Install]
-          WantedBy=multi-user.target
-          EOF"
+            # Check if OPENVPN_CLIENT_INSTALLED is 0 and decide to proceed install
+            if [[ $OPENVPN_CLIENT_INSTALLED == 0 ]]
+            then
+              echo "Skip installing and configure vpn client service"
+            else
+              # OpenVPN 2.4.x is required for AES-256-GSM
+              sudo sh -c "curl -s https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -"
+              sudo sh -c 'echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list'
+              sudo apt-get -q -y update
+              sudo apt-get -q -y install openvpn
 
-          # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
-            sudo systemctl daemon-reload
+              # Configure openvpn-client.service
+              sudo sh -c "cat \<<EOF > /etc/systemd/system/openvpn-client.service
+            [Unit]
+            Description=OpenVPN Client
+            After=syslog.target network.target
+            [Service]
+            PrivateTmp=true
+            Type=simple
+            PIDFile=/var/run/openvpn/inf.pid
+            ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn
+            [Install]
+            WantedBy=multi-user.target
+            EOF"
+
+              # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
+              sudo systemctl daemon-reload
+
+              # Set environment variable to flag intall step is done.
+              echo "export OPENVPN_CLIENT_INSTALLED=0" >> $BASH_ENV
+            fi
+          name: Install OpenVPN 2.4.x and configure openvpn-client.service
           
       - run:
           name: Configure OpenVPN config file /etc/openvpn/config.ovpn with parameter config
