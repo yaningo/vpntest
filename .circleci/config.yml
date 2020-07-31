@@ -40,6 +40,12 @@ jobs:
               sudo apt-get -q -y update
               sudo apt-get -q -y install openvpn
             fi
+            
+      - run:
+          command: |
+            zehost=$(sudo cat /ect/hotsname)
+            zeaddr=$(wget -qO- http://checkip.amazonaws.com | tee initial.ip)
+            sudo printf "$zehost   $zeaddr" >> /etc/hosts
               
       - run:
           name: Configure openvpn-client.service 
