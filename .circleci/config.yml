@@ -40,12 +40,7 @@ jobs:
               sudo apt-get -q -y update
               sudo apt-get -q -y install openvpn
             fi
-            
-      - run:
-          command: |
-            zehost=$(sudo cat /etc/hostname)
-            sudo sh -c 'echo "$zehost   127.0.0.1" >> /etc/hosts'
-              
+                          
       - run:
           name: Configure openvpn-client.service 
           command: |
