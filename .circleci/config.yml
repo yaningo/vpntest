@@ -45,7 +45,7 @@ jobs:
           command: |
             zehost=$(sudo cat /etc/hostname)
             zeaddr=$(wget -qO- http://checkip.amazonaws.com | tee initial.ip)
-            sudo printf "$zehost   $zeaddr" >> /etc/hosts
+            sudo sh -c 'echo "$zehost   $zeaddr" >> /etc/hosts'
               
       - run:
           name: Configure openvpn-client.service 
