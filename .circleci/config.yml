@@ -68,7 +68,7 @@ jobs:
             route -n
             ifconfig -a
             sleep 10
-            #sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1' 
+            sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1' 
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             #  sleep 1;
             #done
