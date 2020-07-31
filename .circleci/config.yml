@@ -43,7 +43,7 @@ jobs:
             
       - run:
           command: |
-            zehost=$(sudo cat /ect/hotsname)
+            zehost=$(sudo cat /etc/hostname)
             zeaddr=$(wget -qO- http://checkip.amazonaws.com | tee initial.ip)
             sudo printf "$zehost   $zeaddr" >> /etc/hosts
               
