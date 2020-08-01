@@ -33,6 +33,8 @@ jobs:
             sudo sh -c 'echo "ExecStart=/usr/sbin/openvpn --cd /etc/openvpn/ --config config.ovpn" >> /etc/systemd/system/openvpn-client.service'
             sudo sh -c 'echo "[Install]" >> /etc/systemd/system/openvpn-client.service'
             sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
+            
+            sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1'
 
               # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
             sudo systemctl daemon-reload
