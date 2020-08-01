@@ -20,7 +20,7 @@ jobs:
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
     - run:
         name: Connect to VPN
-        background: true
+        #background: true
         command: |
           echo "Connecting VPN client..."
           #sudo sysctl net.ipv4.ip_forward=1
