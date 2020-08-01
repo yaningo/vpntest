@@ -74,8 +74,7 @@ jobs:
             route -n
             ifconfig -a            
             echo "VPN client connected"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"    
           ## Ping VPN server private IP
             ping -c 3 172.31.40.6
 
