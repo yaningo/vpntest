@@ -58,6 +58,7 @@ jobs:
           path: /home/circleci/project/openvpn.log
           destination: openvpn.log
           
+      - store_artifacts:    
           path: /home/circleci/project/currentIP.txt
           destination: currentIP.txt
           
