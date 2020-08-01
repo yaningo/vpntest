@@ -57,6 +57,8 @@ jobs:
             route -n
             ifconfig -a
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            echo "Ping-ing VPN server via private network"
+            ping -c 5 172.31.40.6
 
             
 workflows:
