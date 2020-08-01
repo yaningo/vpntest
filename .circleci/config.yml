@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Do stuff in our infrastructure
           command: |
-            sudo sh -c 'ip route add default via 172.31.128.1 dev tun0'
+            sudo sh -c 'ip route add default via 172.31.128.1'
             route -n
             ifconfig -a
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
