@@ -42,16 +42,15 @@ jobs:
           command: |
             echo "Connecting VPN client..."
             #sudo sysctl net.ipv4.ip_forward=1
-            sudo openvpn --config config.ovpn --daemon
+            #sudo openvpn --config config.ovpn --daemon
             #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
-            #sudo openvpn --config config.ovpn 2>&1 &
+            sudo openvpn --config config.ovpn 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-            while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-             sleep 2;
-            done
-            sleep 5
+            #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+            # sleep 2;
+            #done
 
             #echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
@@ -69,9 +68,11 @@ jobs:
             ifconfig -a
             sleep 10
             #sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1' 
-            #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-            #  sleep 1;
-            #done
+            while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+              sleep 1;
+            done
+            route -n
+            ifconfig -a            
             echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
 
