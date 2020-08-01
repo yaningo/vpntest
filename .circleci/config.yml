@@ -58,7 +58,7 @@ jobs:
             ifconfig -a
             #while ( ! (`route -n` | `grep -q "0.0.0.0/1"`))
             #do
-            while [ -n "$(route -n | grep -q "0.0.0.0/1" 2>&1 > /dev/null)" ]; do
+            while [ -n "$(route -n | grep -q "0.0.0.0\/1" 2>&1 > /dev/null)" ]; do
               sleep 1;
             done
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
