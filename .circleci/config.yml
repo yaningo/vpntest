@@ -4,20 +4,12 @@ jobs:
     machine: true
     
     steps:
-    #- run:
-    #    name: Install OpenVPN
-    #    command: |
-    #      sudo apt-get update -y && sudo apt-get install openvpn
-    #      #sudo apt-get upgrade openvpn
-    #      #sudo openvpn --version
-    
     - run:
-        name: Install openVPN 2.4
+        name: Install OpenVPN
         command: |
-          sudo sh -c "curl -s https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -"
-          sudo sh -c 'echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list'
-          sudo apt-get -q -y update
-          sudo apt-get -q -y install openvpn
+          sudo apt-get update -y && sudo apt-get install openvpn
+          sudo apt-get upgrade openvpn
+          sudo openvpn --version
         
     - run:
         name: Init VPN
@@ -29,10 +21,9 @@ jobs:
           echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
     - run:
         name: Connect to VPN
-       # background: true
+        background: true
         command: |
-          sudo /bin/bash -c 'openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &'
-          sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
+          sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
           #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
            # sleep 0.1;
           #done
@@ -56,6 +47,8 @@ jobs:
           route -n
           ifconfig -a
           curl ifconfig.me
+          #Ping VPN server private IP
+          ping -c 3 172.31.40.6
           
             
 workflows:
