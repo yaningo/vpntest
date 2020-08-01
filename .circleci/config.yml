@@ -5,13 +5,10 @@ jobs:
       image: ubuntu-1604:201903-01
       
     steps:
-     # - run:
-     #     name: Install OpenVPN
-     #     command: |
-     #       sudo apt-get update -y && sudo apt-get install openvpn
-            #sudo apt-get install network-manager-openvpn -y
-            #sudo apt-get upgrade openvpn
-            #sudo openvpn --version
+      - run:
+          name: Install OpenVPN
+          command: |
+            sudo apt-get update -y && sudo apt-get install openvpn
         
       - run:
           name: Init le VPN
@@ -22,21 +19,6 @@ jobs:
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             #printf "$VPN_USERNAME\n$VPN_PASSWORD\n" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            
-
-      - run:
-          command: |
-            # Check if OPENVPN_CLIENT_INSTALLED is 0 and decide to proceed install
-            if [[ $OPENVPN_CLIENT_INSTALLED == 0 ]]
-            then
-              echo "Skip installing and configure vpn client service"
-            else
-              # OpenVPN 2.4.x is required for AES-256-GSM
-              sudo sh -c "curl -s https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -"
-              sudo sh -c 'echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list'
-              sudo apt-get -q -y update
-              sudo apt-get -q -y install openvpn
-            fi
                           
       - run:
           name: Configure openvpn-client.service 
@@ -74,10 +56,6 @@ jobs:
           command: |
             route -n
             ifconfig -a
-            #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-            #  sleep 1;
-            #done
-            echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
 
             
