@@ -27,7 +27,7 @@ jobs:
 
       - run:
           name: Connect to VPN
-          background: true
+          #background: true
           command: |
             echo "Connecting VPN client..."
             sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
@@ -61,7 +61,11 @@ jobs:
             #done
             #echo "VPN client connected"
             #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-
+            
+      - run:
+              name: Disconnect from OpenVPN
+              command: sudo killall openvpn || true
+              when: always
             
 workflows:
   version: 2
