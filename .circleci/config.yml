@@ -28,7 +28,7 @@ jobs:
           #background: true
           command: |
             echo "Connecting VPN client..."
-            sudo openvpn --config config.ovpn --daemon
+            sudo sh -c 'openvpn --config config.ovpn --daemon'
             
             while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
              sleep 1;
