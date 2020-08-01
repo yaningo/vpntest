@@ -34,9 +34,7 @@ jobs:
             sudo sh -c 'echo "[Install]" >> /etc/systemd/system/openvpn-client.service'
             sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
             
-            sudo sh -c 'ip route add default via 172.31.128.1'
-
-              # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
+            # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
             sudo systemctl daemon-reload
           
       - run:
@@ -56,6 +54,7 @@ jobs:
       - run:
           name: Do stuff in our infrastructure
           command: |
+            sudo sh -c 'ip route add default via 172.31.128.1 dev tun0'
             route -n
             ifconfig -a
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
