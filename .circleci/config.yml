@@ -1,18 +1,23 @@
 version: 2
 jobs:
+  parameters:
+    Conn_Ready:
+      type: boolean
+      default: false
+      
   test-vpn:
     machine:
       image: ubuntu-1604:201903-01
     
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
+      # - add_ssh_keys:
+      #    fingerprints:
+      #      - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"    
       - run:
           name: Install OpenVPN
           command: |
             sudo apt-get update -y && sudo apt-get install openvpn
-            sudo apt-get install network-manager-openvpn -y
+            #sudo apt-get install network-manager-openvpn -y
             #sudo apt-get upgrade openvpn
             #sudo openvpn --version
         
