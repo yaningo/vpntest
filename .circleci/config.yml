@@ -42,7 +42,9 @@ jobs:
       - run:
           name: Check VPN connection
           command: |
-            sleep 20
+            while [ $(ip route show default|grep "172.31"|grep -c "tun0") == 0 ]; do
+              sleep 1;
+            done
             ip route
             ifconfig -a
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
