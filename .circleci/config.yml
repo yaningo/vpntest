@@ -37,13 +37,14 @@ jobs:
             while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
               sleep 1;
             done
-            Conn_Ready=True
+            Conn_Ready=true
             echo "VPN client connected"
                         
       - run:
           name: Check VPN connection
           command: |
-            while [ ! ${Conn_Ready} ]; do
+          echo $Conn_Ready
+            while [ ! $Conn_Ready ]; do
             #while [ $(tail -100 /var/log/syslog|grep "172.31"|grep -c "tun0") == 0 ]; do
               sleep 5;
             done
