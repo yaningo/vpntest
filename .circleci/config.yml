@@ -34,7 +34,7 @@ jobs:
             #sudo openvpn --config config.ovpn --daemon > openvpn.log 2>&1
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
-            while [ $(cat opevvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
+            while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
               sleep 1;
             done
             echo "VPN client connected"
