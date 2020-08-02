@@ -1,8 +1,8 @@
 version: 2.1
 jobs:
   test-vpn:
-    machine:
-      image: ubuntu-1604:202007-01
+    machine: true
+      # image: ubuntu-1604:202007-01
       
     steps:
       - run:
