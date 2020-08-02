@@ -13,11 +13,15 @@ jobs:
       - run:
           name: Init le VPN
           command: |
+            # See https://azetinetworks.atlassian.net/wiki/spaces/SC13/pages/106496011/OpenVPN+Client+on+Ubuntu+16.04
             echo $VPN_CONFIG | base64 --decode >> config.ovpn
             sudo cp config.ovpn /etc/openvpn/client.conf
             sudo systemctl enable openvpn@client.service
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            
+            # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
+            sudo systemctl daemon-reload
                           
   #    - run:
   #        name: Configure openvpn-client.service 
@@ -34,7 +38,7 @@ jobs:
   #          sudo sh -c 'echo "WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-client.service'
             
             # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
-            sudo systemctl daemon-reload
+            #sudo systemctl daemon-reload
           
      # - run:
      #     name: Configure OpenVPN config file /etc/openvpn/config.ovpn with parameter config
