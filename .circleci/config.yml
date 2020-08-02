@@ -3,6 +3,8 @@ jobs:
   test-vpn:
     machine:
       image: ubuntu-1604:201903-01
+    environment:
+      Conn_Ready: false
     
     steps:
       # - add_ssh_keys:
@@ -37,7 +39,8 @@ jobs:
             while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
               sleep 1;
             done
-            echo "export Conn_Ready=true" >> $BASH_ENV
+            Conn_Ready=true
+            echo ${Conn_Ready}
             echo "VPN client connected"
                         
       - run:
