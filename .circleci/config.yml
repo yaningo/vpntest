@@ -31,18 +31,23 @@ jobs:
           command: |
             echo "Connecting VPN client..."
             #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
-            sudo openvpn --config config.ovpn --daemon
+            sudo openvpn --config config.ovpn --daemon -f openvpn.log
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             #while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
             #  sleep 1;
             #done
             #echo "VPN client connected"
+            
+      - store_artifacts:
+          path: /home/circleci/project/openvpn.log
+          destination: openvpn.log
                         
       - run:
           name: Check VPN connection
           command: |
-            while [ $(ip route show default|grep "172.31"|grep -c "tun0") == 0 ]; do
+            #while [ $(ip route show default|grep "172.31"|grep -c "tun0") == 0 ]; do
+            #while [ $(tail -100 /var/log/syslog|grep "172.31"|grep -c "tun0") == 0 ]; do
               sleep 2;
             done
             route -n
@@ -56,9 +61,7 @@ jobs:
             # sleep 0.1;
             #done
             
-      #- store_artifacts:
-      #    path: /home/circleci/project/openvpn.log
-      #    destination: openvpn.log
+      
           
       - store_artifacts:
           path: /home/circleci/project/currentIP.txt
