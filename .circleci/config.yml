@@ -34,6 +34,14 @@ jobs:
             #sudo openvpn --config config.ovpn --daemon > openvpn.log 2>&1
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
+            while [ $(grep -c \"Initialization Sequence Completed\" openvpn.log) == 0 ]; do
+              sleep 1;
+            done
+            echo "VPN client connected"
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
+            ip route show default >> currentIP.txt
+            route -n >> currentIP.txt
+            ifconfig -a >> currentIP.txt
             
       - store_artifacts:
           path: /home/circleci/project/openvpn.log
@@ -52,15 +60,7 @@ jobs:
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 0.1;
             #done
-            while [ $(grep -c \"Initialization Sequence Completed\" openvpn.log) == 0 ]; do
-              sleep 1;
-            done
-            echo "VPN client connected"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
-            ip route show default >> currentIP.txt
-            route -n >> currentIP.txt
-            ifconfig -a >> currentIP.txt
-         
+                     
       - run:
           name: Do stuff in our infrastructure
           command: |
