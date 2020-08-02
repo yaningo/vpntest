@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   test-vpn:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604:202007-01
       
     steps:
       - run:
@@ -54,7 +54,7 @@ jobs:
      #     name: Start OPENVPN client and wait for connection to be made
      
       - run:
-          command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo sh -c 'service openvpn@client start'\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 2 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
+          command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo service openvpn@client start\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 2 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
           name: Start OPENVPN client and wait for connection to be made
           
       - run:
