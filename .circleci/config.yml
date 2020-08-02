@@ -38,7 +38,7 @@ jobs:
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 0.1;
             #done
-            while [ $(ip route show default|grep "0.0.0.0"|grep -c "tun0") == 0 ]; do
+            while [ $(ip route show default|grep "172.31"|grep -c "tun0") == 0 ]; do
               sleep 1;
             done
             echo "VPN client connected"
