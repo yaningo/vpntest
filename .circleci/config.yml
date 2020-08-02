@@ -59,6 +59,7 @@ jobs:
             sudo systemctl daemon-reload
             sudo service openvpn@client start
             until systemctl status openvpn@client | grep "Initialization Sequence Completed" > /dev/null; do sleep 1 | echo "connecting vpn..."; done
+            systemctl status openvpn@client > openvpn.log
           
       - run:
           name: Check routes
@@ -68,6 +69,10 @@ jobs:
             route -n >> currentIP.txt
             ifconfig -a >> currentIP.txt
             
+      - store_artifacts:    
+          path: /home/circleci/project/openvpn.log
+          destination: openvpn.log
+                        
       - store_artifacts:    
           path: /home/circleci/project/currentIP.txt
           destination: currentIP.txt      
