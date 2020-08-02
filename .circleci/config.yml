@@ -14,13 +14,13 @@ jobs:
           name: Init le VPN
           command: |
             # See https://azetinetworks.atlassian.net/wiki/spaces/SC13/pages/106496011/OpenVPN+Client+on+Ubuntu+16.04
-            sudo sh -c 'echo $VPN_CONFIG | base64 --decode >> /etc/openvpn/client.conf'
-            sudo systemctl enable openvpn@client.service
+            echo $VPN_CONFIG | base64 --decode >> config.ovpn
+            sudo cp config.ovpn /etc/openvpn/client.conf
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             
             # Reload systemd manager configuration. Reloading systemctl will be failed with docker executor because it's privileged=false
-            sudo systemctl daemon-reload
+            #sudo systemctl daemon-reload
                           
   #    - run:
   #        name: Configure openvpn-client.service 
@@ -53,9 +53,16 @@ jobs:
      #     command: "for n in {1..3}\ndo\n  echo \"Connection attempt $n\"\n  sudo systemctl restart openvpn-client\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 3 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
      #     name: Start OPENVPN client and wait for connection to be made
      
-      - run:
-          command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo service openvpn@client start\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 2 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
-          name: Start OPENVPN client and wait for connection to be made
+     # - run:
+     #     command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo service openvpn@client start\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 2 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
+     #     name: Start OPENVPN client and wait for connection to be made
+     
+     - run:
+        name: Connect to OpenVPN
+        command: |
+          sudo systemctl daemon-reload
+          sudo service openvpn@client start
+          until systemctl status openvpn@client | grep "Initialization Sequence Completed" > /dev/null; do sleep 1 | echo "connecting vpn..."; done
           
       - run:
           name: Check routes
