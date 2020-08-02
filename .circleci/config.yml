@@ -13,11 +13,8 @@ jobs:
       - run:
           name: Init le VPN
           command: |
-            #echo "$VPN_CONFIG" > raw.txt
-            #cat raw.txt | tr " " "\n" | base64 --decode >> config.ovpn
             echo $VPN_CONFIG | base64 --decode >> config.ovpn
             #printf "\"$VPN_USER\\n$VPN_PASSWORD\\n\"" >> vpn.login
-            #printf "$VPN_USERNAME\n$VPN_PASSWORD\n" >> vpn.login
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
                           
       - run:
@@ -50,6 +47,18 @@ jobs:
       - run:
           command: "for n in {1..2}\ndo\n  echo \"Connection attempt $n\"\n  sudo systemctl restart openvpn-client\n  timeout 30 \\\n    bash -c 'until systemctl status openvpn-client | grep \"Initialization Sequence Completed\" > /dev/null; do sleep 1 | echo \"connecting vpn...\" ; done' || \\\n    timeout_rtrn_code=$?\n  if [[ -z $timeout_rtrn_code || $timeout_rtrn_code == 0 ]]\n  then\n    echo \"Connected to VPN successfully\" && break\n  else\n    echo \"Connection attempt $n has timed out\"\n    if [[ $n == 5 ]]; \n    then \n      echo \"VPN connection has failed. Error: $timeout_rtrn_code\" && exit $timeout_rtrn_code\n    else\n      echo \"VPN connection has failed but will retry in 5 seconds. Error: $timeout_rtrn_code\"\n      sudo systemctl stop openvpn-client\n      unset timeout_rtrn_code\n    fi\n  fi\n  sleep 45\ndone"
           name: Start OPENVPN client and wait for connection to be made
+          
+      - run:
+          name: Check routes
+          command: |
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
+            ip route show default >> currentIP.txt
+            route -n >> currentIP.txt
+            ifconfig -a >> currentIP.txt
+            
+      - store_artifacts:    
+          path: /home/circleci/project/currentIP.txt
+          destination: currentIP.txt      
           
       - run:
           name: Do stuff in our infrastructure
