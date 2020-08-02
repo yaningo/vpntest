@@ -27,11 +27,11 @@ jobs:
 
       - run:
           name: Connect to VPN
-          background: true
+          #background: true
           command: |
             echo "Connecting VPN client..."
-            sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
-            #sudo openvpn --config config.ovpn --daemon > openvpn.log 2>&1
+            #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
+            sudo openvpn --config config.ovpn --daemon
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             #while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
@@ -54,9 +54,9 @@ jobs:
             # sleep 0.1;
             #done
             
-      - store_artifacts:
-          path: /home/circleci/project/openvpn.log
-          destination: openvpn.log
+      #- store_artifacts:
+      #    path: /home/circleci/project/openvpn.log
+      #    destination: openvpn.log
           
       - store_artifacts:
           path: /home/circleci/project/currentIP.txt
