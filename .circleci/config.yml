@@ -34,12 +34,15 @@ jobs:
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-            while [ -n "$(route -n|grep "0.0.0.0"|grep "tun0" 2>&1 > /dev/null)" ]; do
-             sleep 1;
-            done
+            #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
+            #  sleep 1;
+            #done
+            
+            sleep 20
 
             #echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
+            ip route show default >> currentIP.txt
             route -n >> currentIP.txt
             ifconfig -a >> currentIP.txt
             
