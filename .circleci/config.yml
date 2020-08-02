@@ -38,6 +38,8 @@ jobs:
       - run:
           name: Check VPN connection
           command: |
+            ip route
+            ifconfig -a
             sudo sh -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 0.1;
