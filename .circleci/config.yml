@@ -35,6 +35,14 @@ jobs:
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             
+      - store_artifacts:
+          path: /home/circleci/project/openvpn.log
+          destination: openvpn.log
+          
+      - store_artifacts:
+          path: /home/circleci/project/currentIP.txt
+          destination: currentIP.txt
+                        
       - run:
           name: Check VPN connection
           command: |
@@ -52,15 +60,7 @@ jobs:
             ip route show default >> currentIP.txt
             route -n >> currentIP.txt
             ifconfig -a >> currentIP.txt
-            
-      - store_artifacts:
-          path: /home/circleci/project/openvpn.log
-          destination: openvpn.log
-          
-      - store_artifacts:
-          path: /home/circleci/project/currentIP.txt
-          destination: currentIP.txt
-                                              
+         
       - run:
           name: Do stuff in our infrastructure
           command: |
