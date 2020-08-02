@@ -27,14 +27,14 @@ jobs:
 
       - run:
           name: Connect to VPN
-          background: true
+          #background: true
           command: |
             echo "Connecting VPN client..."
             sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
-            while [ -n "$(route -n|grep "0.0.0.0"|grep "tun0")" ]; do
+            while [ -n "$(route -n|grep "0.0.0.0"|grep "tun0" 2>&1 > /dev/null)" ]; do
              sleep 1;
             done
 
