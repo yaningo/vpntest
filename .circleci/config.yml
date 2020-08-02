@@ -54,11 +54,11 @@ jobs:
      #     name: Start OPENVPN client and wait for connection to be made
      
       - run:
-        name: Connect to OpenVPN
-        command: |
-          sudo systemctl daemon-reload
-          sudo service openvpn@client start
-          until systemctl status openvpn@client | grep "Initialization Sequence Completed" > /dev/null; do sleep 1 | echo "connecting vpn..."; done
+          name: Connect to OpenVPN
+          command: |
+            sudo systemctl daemon-reload
+            sudo service openvpn@client start
+            until systemctl status openvpn@client | grep "Initialization Sequence Completed" > /dev/null; do sleep 1 | echo "connecting vpn..."; done
           
       - run:
           name: Check routes
