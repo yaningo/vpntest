@@ -38,6 +38,7 @@ jobs:
             #  sleep 1;
             #done
             #echo "VPN client connected"
+            sleep 20
                         
       - run:
           name: Check VPN connection
