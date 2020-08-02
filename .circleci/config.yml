@@ -41,12 +41,12 @@ jobs:
             while [ $(ip route show default|grep "172.31"|grep -c "tun0") == 0 ]; do
               sleep 1;
             done
-            ping -c 5 172.31.40.6
             echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
             ip route show default >> currentIP.txt
             route -n >> currentIP.txt
             ifconfig -a >> currentIP.txt
+            ping -c 5 172.31.40.6
                                               
       - run:
           name: Do stuff in our infrastructure
