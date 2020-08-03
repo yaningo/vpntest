@@ -58,11 +58,11 @@ jobs:
             done
             route -n
             ifconfig -a
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
-       #     echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             ip route show default >> currentIP.txt
-       #     route -n
-       #     ifconfig -a
+            #route -n
+            #ifconfig -a
             #sudo sh -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 0.1;
