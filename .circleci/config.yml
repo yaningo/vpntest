@@ -74,7 +74,7 @@ jobs:
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             
             #Ping VPN server private IP
-            ping -c 3 172.31.40.6
+            ping -c 5 172.31.40.6
             
       - store_artifacts:
           path: /home/circleci/project/openvpn.log
