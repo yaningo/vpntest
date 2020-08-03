@@ -42,7 +42,8 @@ jobs:
             # sleep 2;
             #done
             
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            echo "just an echo echoo echoooo"
             #route -n
             #ifconfig -a
             
