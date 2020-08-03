@@ -43,9 +43,9 @@ jobs:
             #done
 
             #echo "VPN client connected"
-            #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            #route -n
-            #ifconfig -a
+            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            route -n
+            ifconfig -a
             
                
       - run:
