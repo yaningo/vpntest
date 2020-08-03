@@ -28,7 +28,7 @@ jobs:
             
       - run:
           name: Connect to VPN
-          #background: true
+          background: true
           command: |
             echo "Connecting VPN client..."
             #sudo sysctl net.ipv4.ip_forward=1
