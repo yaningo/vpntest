@@ -76,6 +76,11 @@ jobs:
             #Ping VPN server private IP
             ping -c 5 172.31.40.6
             
+      - run:
+              name: Disconnect from OpenVPN
+              command: sudo killall openvpn || true
+              when: always
+            
       - store_artifacts:
           path: /home/circleci/project/openvpn.log
           destination: openvpn.log
