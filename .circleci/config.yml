@@ -33,7 +33,10 @@ jobs:
       - run:
           name: Check VPN connection
           command: |
-            sleep 30
+            while [ ! (-f openvpn.log) ] do;
+             sleep 1
+             echo "Waiting for VPN client log";
+            done
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)" > currentIP.txt
             #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             ip route show default >> currentIP.txt
