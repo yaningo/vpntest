@@ -41,6 +41,10 @@ jobs:
             #while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
             # sleep 2;
             #done
+            
+            while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
+              sleep 1;
+            done
 
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             #route -n
@@ -58,18 +62,16 @@ jobs:
             #  sleep 1;
             #done
             
-            while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
-              sleep 1;
-            done
+            
             
             #while [ $(ip route show default|grep -c "tun0") == 0 ]; do
             #  sleep 5
             #  echo "Still attempting to connect VPN client...";
             #done
 
-            route -n
-            ifconfig -a            
-            echo "VPN client connected"
+            #route -n
+            #ifconfig -a            
+            #echo "VPN client connected"
             echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             
             #Ping VPN server private IP
