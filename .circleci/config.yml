@@ -43,9 +43,9 @@ jobs:
             #done
 
             #echo "VPN client connected"
-            echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
-            route -n
-            ifconfig -a
+            #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
+            #route -n
+            #ifconfig -a
             
                
       - run:
@@ -53,18 +53,17 @@ jobs:
           command: |
             route -n
             ifconfig -a
-            sleep 10
+            sleep 20
             #sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1' 
             while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
               sleep 1;
             done
             
-            ####### The below condition doesn't seem to work ############
             #while [ $(ip route show default|grep -c "tun0") == 0 ]; do
             #  sleep 5
             #  echo "Still attempting to connect VPN client...";
             #done
-            #############################################################
+
             route -n
             ifconfig -a            
             echo "VPN client connected"
