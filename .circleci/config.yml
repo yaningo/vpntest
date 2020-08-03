@@ -66,8 +66,7 @@ jobs:
             sleep 10
             #sudo sh -c 'ip route add 0.0.0.0/1 via 172.31.128.1' 
             while [ -n "$(ip addr show tun0 2>&1 > /dev/null)" ]; do
-              sleep 2
-              echo "Attempting to connect VPN client...";
+              sleep 2;
             done
             
             ####### The below condition doesn't seem to work ############
