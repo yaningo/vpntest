@@ -43,8 +43,8 @@ jobs:
             echo "Connecting VPN client..."
             #sudo sysctl net.ipv4.ip_forward=1
             #sudo openvpn --config config.ovpn --daemon
-            #sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
-            sudo openvpn --config config.ovpn 2>&1 &
+            sudo openvpn --config config.ovpn > openvpn.log 2>&1 &
+            #sudo openvpn --config config.ovpn 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
             #sudo /bin/bash -c 'echo "nameserver 8.8.8.8" > /run/resolvconf/resolv.conf'
