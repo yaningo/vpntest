@@ -42,10 +42,9 @@ jobs:
             # sleep 2;
             #done
 
-            echo "Attempting to connect"
             #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             #route -n
-            #ifconfig -a
+            ifconfig -a
             
                
       - run:
