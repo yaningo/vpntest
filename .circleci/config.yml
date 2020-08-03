@@ -42,7 +42,7 @@ jobs:
             # sleep 2;
             #done
 
-            #echo "VPN client connected"
+            echo "Attempting to connect"
             #echo "Public IP is $(wget -qO- http://checkip.amazonaws.com | tee initial.ip)"
             #route -n
             #ifconfig -a
