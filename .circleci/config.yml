@@ -70,6 +70,7 @@ jobs:
             
             #Ping VPN server private IP
             ping -c 5 172.31.40.6
+            sleep 20
             
       - run:
           name: Disconnect from OpenVPN
