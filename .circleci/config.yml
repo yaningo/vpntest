@@ -60,7 +60,8 @@ jobs:
             #done
             
             while [ $(cat openvpn.log|grep -c "Initialization Sequence Completed") == 0 ]; do
-              sleep 1;
+              sleep 3
+              echo "Wating for connection";
             done         
                         
             #while [ $(ip route show default|grep -c "tun0") == 0 ]; do
