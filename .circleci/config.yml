@@ -38,7 +38,7 @@ jobs:
             
       - run:
           name: Connect to VPN
-          #background: true
+          background: true
           command: |
             echo "Connecting VPN client..."
             #sudo sysctl net.ipv4.ip_forward=1
@@ -57,10 +57,7 @@ jobs:
             route -n
             ifconfig -a
             
-      - store_artifacts:
-          path: /home/circleci/project/openvpn.log
-          destination: openvpn.log
-          
+               
       - run:
           name: Do stuff in our infrastructure
           command: |
@@ -78,6 +75,10 @@ jobs:
             
             #Ping VPN server private IP
             ping -c 3 172.31.40.6
+            
+      - store_artifacts:
+          path: /home/circleci/project/openvpn.log
+          destination: openvpn.log
 
             
 workflows:
