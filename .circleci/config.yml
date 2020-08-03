@@ -29,6 +29,7 @@ jobs:
             #sudo openvpn --config config.ovpn --daemon -f openvpn.log
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login > openvpn.log 2>&1 &
             #sudo openvpn --config config.ovpn --auth-user-pass vpn.login 2>&1 &
+            ifconfig -a
                    
       - run:
           name: Check VPN connection
