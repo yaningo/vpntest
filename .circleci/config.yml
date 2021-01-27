@@ -10,12 +10,17 @@ jobs:
           name: Install Redsocks
           command: |
             sudo apt-get update -y && sudo apt install redsocks
+            
+      - add_ssh_keys:
+          fingerprints:
+            - "29:a6:37:58:fd:c2:c9:1a:55:b1:5f:65:03:f1:06:ef"
         
       - run:
           name: Run redscocks
+          background: true
           command: |
-            sudo chmod u+x ./iptables-redsocks.sh 
-            sudo ./iptables-redsocks.sh  
+            sudo chmod +x ./iptables-redsocks.sh 
+            sudo ./iptables-redsocks.sh start
 
             
       - store_artifacts:
