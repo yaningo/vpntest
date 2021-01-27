@@ -12,6 +12,7 @@ jobs:
           name: Install Redsocks
           command: |
             sudo apt-get update -y && sudo apt install redsocks
+            sudo apt-get install iptables
             
       - add_ssh_keys:
           fingerprints:
