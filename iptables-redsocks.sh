@@ -21,15 +21,6 @@ sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 31338
 # Any tcp connection made by `user' should be redirected, put your username here.
 sudo iptables -t nat -A OUTPUT -p tcp -m owner --uid-owner user -j REDSOCKS
 
-if ! test -f socks.conf ; then
-        cat << EOF > socks.conf
-base{log_debug = on; log_info = on; log = "file:/tmp/reddi.log";
-       daemon = on; redirector = iptables;}
-       redsocks { local_ip = 127.0.0.1; local_port = 31338; ip = 127.0.0.1;
-       port = 31337; type = socks5; }
-EOF
-fi
-
-./redsocks -c socks.conf
+./redsocks -c redsocks.conf
 
 ssh -fND localhost:31337 user@server 2>/dev/null 1>2
