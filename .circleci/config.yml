@@ -30,7 +30,7 @@ jobs:
 
             
       - store_artifacts:
-          path: /home/circleci/project/redsocks.log
+          path: /tmp/reddi.log
           destination: redsocks.log
                                                                      
       - run:
