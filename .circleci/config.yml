@@ -20,7 +20,7 @@ jobs:
           name: Run redscocks
           background: true
           command: | 
-            sudo ./iptables-redsocks.sh start &
+            sudo ./iptables-redsocks.sh start
             
       - store_artifacts:
           path: /tmp/reddi.log
