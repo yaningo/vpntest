@@ -2,7 +2,7 @@
 set -e
 
 function tunnel_up(){
-    ssh -o StrictHostKeyChecking=no -v openvpnas@ec2-54-246-54-223.eu-west-1.compute.amazonaws.com -22 -D 99999 -nf "sleep 90000" &
+    ssh -o StrictHostKeyChecking=no -v openvpnas@ec2-54-246-54-223.eu-west-1.compute.amazonaws.com -22 -D 8888 -nf "sleep 90000" &
     sudo redsocks -c ./redsocks.conf &
     sudo iptables -t nat -N REDSOCKS
     sudo iptables -t nat -A REDSOCKS -p tcp -d 10.0.0.0/8 -j DNAT --to 127.0.0.1:1345
