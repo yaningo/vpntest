@@ -1,10 +1,8 @@
 version: 2.1
 jobs: 
   test-vpn:
-    # machine:
-      # image: ubuntu-1604:201903-01
-    docker:
-      - image: circleci/node
+     machine:
+       image: ubuntu-1604:201903-01
     
     steps:
       - checkout
@@ -12,7 +10,6 @@ jobs:
           name: Install Redsocks
           command: |
             sudo apt-get update -y && sudo apt install redsocks
-            sudo apt-get install iptables
             
       - add_ssh_keys:
           fingerprints:
