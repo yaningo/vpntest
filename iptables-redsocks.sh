@@ -13,7 +13,7 @@ sudo iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
 sudo iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
 
 # Put your ssh server IP here
-sudo iptables -t nat -A REDSOCKS -d x.x.x.x/4 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 54.246.54.223/4 -j RETURN
 
 # Anything else should be redirected to port 31338
 sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 31338
