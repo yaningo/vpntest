@@ -21,6 +21,12 @@ jobs:
           command: |
             sudo chmod +x ./iptables-redsocks.sh 
             sudo ./iptables-redsocks.sh start
+            
+      - run:
+          name: Are files here?
+          command: |
+            pwd
+            ls -al
 
             
       - store_artifacts:
