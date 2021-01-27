@@ -19,8 +19,8 @@ sudo iptables -t nat -A REDSOCKS -d 54.246.54.223/4 -j RETURN
 sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 31338
 
 # Any tcp connection made by `user' should be redirected, put your username here.
-sudo iptables -t nat -A OUTPUT -p tcp -m owner --uid-owner user -j REDSOCKS
+sudo iptables -t nat -A OUTPUT -p tcp -m owner --uid-owner circleci -j REDSOCKS
 
-./redsocks -c redsocks.conf
+redsocks -c redsocks.conf
 
 ssh -fND localhost:31337 user@server 2>/dev/null 1>2
